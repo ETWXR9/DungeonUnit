@@ -13,9 +13,7 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
-//TODO 将地牢ID系统与世界解绑，实现单世界多地牢坐标系，判断重叠。实现在旧世界中建立地牢坐标 1/21重叠没写
-//TODO 选择朝向面方块的函数 1/21待
-//TODO 相关API 1/21待
+
 public class Main extends JavaPlugin {
 
     // 获取单例
