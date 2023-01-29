@@ -1,0 +1,11 @@
+main: com.etwxr9.dungeonUnit.Main
+version: "1.0"
+author: etwxr9
+name: DungeonUnit
+api-version: 1.16
+depend: []
+softdepend: [FastAsyncWorldEdit]
+commands:
+  dfmc:
+     description: DungeonUnit Commands
+     default: op
