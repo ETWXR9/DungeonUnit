@@ -2,7 +2,7 @@
 
 <project xmlns="https://maven.apache.org/POM/4.0.0" xmlns:xsi="https://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.etwxr9</groupId>
+  <groupId>org.etwxr9</groupId>
   <artifactId>DungeonUnit</artifactId>
   <version>1.0.0</version>
 

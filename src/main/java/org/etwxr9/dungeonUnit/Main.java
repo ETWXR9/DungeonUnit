@@ -1,10 +1,10 @@
-package com.etwxr9.dungeonUnit;
+package org.etwxr9.dungeonUnit;
 
 import com.alibaba.fastjson2.JSON;
-import com.etwxr9.dungeonUnit.Command.*;
-import com.etwxr9.dungeonUnit.Dungeon.DungeonInfo;
-import com.etwxr9.dungeonUnit.Dungeon.DungeonManager;
+import org.etwxr9.dungeonUnit.Dungeon.DungeonInfo;
+import org.etwxr9.dungeonUnit.Dungeon.DungeonManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.etwxr9.dungeonUnit.Command.*;
 
 import java.io.File;
 import java.nio.file.Files;

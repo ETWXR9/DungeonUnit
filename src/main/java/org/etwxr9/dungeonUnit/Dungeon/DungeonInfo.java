@@ -1,4 +1,4 @@
-package com.etwxr9.dungeonUnit.Dungeon;
+package org.etwxr9.dungeonUnit.Dungeon;
 
 import com.alibaba.fastjson2.annotation.JSONField;
 import org.bukkit.util.Vector;

@@ -1,4 +1,4 @@
-package com.etwxr9.dungeonUnit.Command;
+package org.etwxr9.dungeonUnit.Command;
 
 import java.util.ArrayList;
 import java.util.HashMap;

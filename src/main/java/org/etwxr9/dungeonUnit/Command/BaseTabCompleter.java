@@ -1,10 +1,10 @@
-package com.etwxr9.dungeonUnit.Command;
+package org.etwxr9.dungeonUnit.Command;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.etwxr9.dungeonUnit.Main;
+import org.etwxr9.dungeonUnit.Main;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;

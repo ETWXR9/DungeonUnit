@@ -1,9 +1,9 @@
-package com.etwxr9.dungeonUnit.Dungeon;
+package org.etwxr9.dungeonUnit.Dungeon;
 
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.filter.SimplePropertyPreFilter;
-import com.etwxr9.dungeonUnit.DungeonAPI;
-import com.etwxr9.dungeonUnit.Main;
+import org.etwxr9.dungeonUnit.DungeonAPI;
+import org.etwxr9.dungeonUnit.Main;
 import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.WorldEditException;

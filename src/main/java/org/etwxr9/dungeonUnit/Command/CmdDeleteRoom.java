@@ -1,12 +1,12 @@
-package com.etwxr9.dungeonUnit.Command;
+package org.etwxr9.dungeonUnit.Command;
 
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
-import com.etwxr9.dungeonUnit.Dungeon.DungeonManager;
-import com.etwxr9.dungeonUnit.Dungeon.RoomInfo;
+import org.etwxr9.dungeonUnit.Dungeon.DungeonManager;
+import org.etwxr9.dungeonUnit.Dungeon.RoomInfo;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;

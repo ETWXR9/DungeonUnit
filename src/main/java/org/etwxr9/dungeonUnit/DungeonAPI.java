@@ -1,8 +1,8 @@
-package com.etwxr9.dungeonUnit;
+package org.etwxr9.dungeonUnit;
 
-import com.etwxr9.dungeonUnit.Dungeon.DungeonInfo;
-import com.etwxr9.dungeonUnit.Dungeon.DungeonManager;
-import com.etwxr9.dungeonUnit.Dungeon.RoomInfo;
+import org.etwxr9.dungeonUnit.Dungeon.DungeonInfo;
+import org.etwxr9.dungeonUnit.Dungeon.DungeonManager;
+import org.etwxr9.dungeonUnit.Dungeon.RoomInfo;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;

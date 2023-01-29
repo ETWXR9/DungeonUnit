@@ -1,9 +1,9 @@
-package com.etwxr9.dungeonUnit.Command;
+package org.etwxr9.dungeonUnit.Command;
 
-import com.etwxr9.dungeonUnit.Dungeon.DungeonInfo;
-import com.etwxr9.dungeonUnit.Dungeon.DungeonManager;
-import com.etwxr9.dungeonUnit.DungeonAPI;
-import com.etwxr9.dungeonUnit.Main;
+import org.etwxr9.dungeonUnit.Dungeon.DungeonInfo;
+import org.etwxr9.dungeonUnit.Dungeon.DungeonManager;
+import org.etwxr9.dungeonUnit.DungeonAPI;
+import org.etwxr9.dungeonUnit.Main;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;

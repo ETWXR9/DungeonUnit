@@ -1,8 +1,8 @@
-package com.etwxr9.dungeonUnit.Command;
+package org.etwxr9.dungeonUnit.Command;
 
 import java.util.List;
 
-import com.etwxr9.dungeonUnit.Dungeon.DungeonManager;
+import org.etwxr9.dungeonUnit.Dungeon.DungeonManager;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
