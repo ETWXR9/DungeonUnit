@@ -80,11 +80,7 @@ public class CmdRoomInfo implements CommandInterface {
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
-        if (args.length != 2)
-            return null;
-        var names = new ArrayList<String>();
-        DungeonManager.getDIList().forEach(d -> names.add(d.getId()));
-        return names;
+        return null;
     }
 
 }

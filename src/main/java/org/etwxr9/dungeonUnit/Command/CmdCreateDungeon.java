@@ -18,7 +18,7 @@ import java.util.List;
 
 public class CmdCreateDungeon implements CommandInterface {
 
-    // /rl createdungeon <id> <dungeon x> <y> <z> <room x> <y> <z> <tags...>
+    // /du createdungeon <id> <dungeon x> <y> <z> <room x> <y> <z> <tags...>
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
         if (args.length < 8)

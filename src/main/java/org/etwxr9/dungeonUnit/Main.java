@@ -54,7 +54,7 @@ public class Main extends JavaPlugin {
         cmdHandler = new CommandHandler();
         cmdHandler.register("du", new BaseCmd());
         cmdHandler.register("createDungeon", new CmdCreateDungeon());
-        cmdHandler.register("deleteWorld", new CmdDeleteWorld());
+        cmdHandler.register("deleteDungeon", new CmdDeleteDungeon());
         cmdHandler.register("deleteRoom", new CmdDeleteRoom());
         cmdHandler.register("enterDungeon", new CmdEnterDungeon());
         cmdHandler.register("dungeonInfo", new CmdDungeonInfo());
