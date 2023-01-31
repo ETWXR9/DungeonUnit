@@ -33,7 +33,7 @@ public class CmdSetRoomInfo implements CommandInterface {
         }
 
         var loc = p.getLocation();
-        var roomOrigin = DungeonAPI.GetPoint(dm.currentRoom,
+        var roomOrigin = DungeonAPI.getPoint(dm.currentRoom,
                 dm.currentIndex, new Vector(0, 0, 0));
         //玩家相对位置
         var playerRelativePos = new Vector(loc.getBlockX() - roomOrigin.getBlockX(), loc.getBlockY() - roomOrigin.getBlockY(),
@@ -70,7 +70,7 @@ public class CmdSetRoomInfo implements CommandInterface {
                     return false;
                 }
                 var newId = args[2];
-                if (dm.currentDungeon.GetRoomInfo(newId) != null) {
+                if (dm.currentDungeon.getRoomInfo(newId) != null) {
                     p.sendMessage("id已经存在！");
                     break;
                 }

@@ -1,6 +1,7 @@
 package org.etwxr9.dungeonUnit.Dungeon;
 
 import org.bukkit.util.Vector;
+import org.etwxr9.dungeonUnit.DungeonAPI;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -49,7 +50,10 @@ public class RoomInfo {
     }
 
     public void setId(String id) {
+        var di = DungeonAPI.getDungeonInfo(dungeonId);
+        di.getRoomInfos().put(id,di.getRoomInfos().remove(this.id));
         this.id = id;
+        di.initEmptyRoomList();
     }
 
     public List<String> getTags() {

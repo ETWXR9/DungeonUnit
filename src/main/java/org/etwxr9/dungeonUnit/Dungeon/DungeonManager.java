@@ -236,9 +236,9 @@ public class DungeonManager {
         var p = dm.player;
         var ri = dm.currentRoom;
         var di = dm.currentDungeon;
-        var vBegin = DungeonAPI.GetPoint(ri, 0,
+        var vBegin = DungeonAPI.getPoint(ri, 0,
                 new Vector()).toBlockVector();
-        var vEnd = DungeonAPI.GetPoint(ri, 0,
+        var vEnd = DungeonAPI.getPoint(ri, 0,
                 di.getRoomSize());
         p.sendMessage(count == -1 ? "准备更新 " + (ri.getRooms().size() - 1) + " 个房间" :
                 "准备复制 " + count + " 个房间");
@@ -262,7 +262,7 @@ public class DungeonManager {
 
         if (count == -1) {
             for (int i = 1; i < ri.getRooms().size(); i++) {
-                var des = DungeonAPI.GetPoint(dm.currentRoom,
+                var des = DungeonAPI.getPoint(dm.currentRoom,
                         i, new Vector());
                 p.sendMessage(MessageFormat.format("更新房间序号{0}，位置{1}", i, des.toString()));
 
@@ -399,7 +399,7 @@ public class DungeonManager {
             return;
         }
         var p = player;
-        var tpDes = DungeonAPI.GetPoint(room, index, room.getPlayerPosition());
+        var tpDes = DungeonAPI.getPoint(room, index, room.getPlayerPosition());
         var world = Bukkit.getWorld(dungeon.getWorld());
         if (player.isOp()) {
             p.sendMessage(MessageFormat.format("准备传送至地牢：{0}， 房间Id：{1}， 序号：{2}",

@@ -29,7 +29,7 @@ public class DungeonAPI {
      * @param dungeonId
      * @return
      */
-    public static DungeonInfo GetDungeonInfo(String dungeonId) {
+    public static DungeonInfo getDungeonInfo(String dungeonId) {
         // Main.getInstance().getLogger().info("准备遍历DI查找" + worldName);
         for (DungeonInfo d : DungeonManager.getDIList()) {
             // Main.getInstance().getLogger().info("遍历DI中：" + d.Id);
@@ -49,13 +49,13 @@ public class DungeonAPI {
      * @param roomId
      * @return
      */
-    public static RoomInfo GetRoomInfo(String dungeonId, String roomId) {
-        var di = GetDungeonInfo(dungeonId);
+    public static RoomInfo getRoomInfo(String dungeonId, String roomId) {
+        var di = getDungeonInfo(dungeonId);
         if (di == null) return null;
-        return di.GetRoomInfo(roomId);
+        return di.getRoomInfo(roomId);
     }
 
-    public static RoomInfo GetRoomInfo(DungeonInfo di, String roomId) {
+    public static RoomInfo getRoomInfo(DungeonInfo di, String roomId) {
         return di.getRoomInfos().get(roomId);
     }
 
@@ -91,7 +91,7 @@ public class DungeonAPI {
      */
     public static void tpPlayer(DungeonInfo dungeon, Player p, RoomInfo room, int index) {
         if (index >= room.getRooms().size()) return;
-        var point = DungeonAPI.GetPoint(room, index, room.getPlayerPosition());
+        var point = DungeonAPI.getPoint(room, index, room.getPlayerPosition());
         var world = Bukkit.getWorld(dungeon.getWorld());
         //如果是op则提供后台信息
         if (p.isOp()) {
@@ -122,8 +122,8 @@ public class DungeonAPI {
      * @param roomPoint 房间内相对坐标
      * @return
      */
-    public static Vector GetPoint(RoomInfo ri, int index, Vector roomPoint) {
-        var di = GetDungeonInfo(ri.getDungeonId());
+    public static Vector getPoint(RoomInfo ri, int index, Vector roomPoint) {
+        var di = getDungeonInfo(ri.getDungeonId());
         var ori = di.getOrigin().clone();
         if (ri.getRooms().size() <= index) return null;
         return ori.add(di.getRoomSize().clone().multiply(ri.getRooms().get(index)).add(roomPoint));

@@ -16,7 +16,7 @@ public class CmdDungeonInfo implements CommandInterface {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
         if (args.length == 2) {
-            var di = DungeonAPI.GetDungeonInfo(args[1]);
+            var di = DungeonAPI.getDungeonInfo(args[1]);
             Player p = (Player) sender;
             if (di == null) {
                 p.sendMessage(MessageFormat.format("不存在地牢：{0}", args[1]));
@@ -32,13 +32,13 @@ public class CmdDungeonInfo implements CommandInterface {
                     ri.getId(), ri.getRooms().size())));
             return true;
         } else if (args.length == 3) {
-            var di = DungeonAPI.GetDungeonInfo(args[1]);
+            var di = DungeonAPI.getDungeonInfo(args[1]);
             Player p = (Player) sender;
             if (di == null) {
                 p.sendMessage(MessageFormat.format("不存在地牢：{0}", args[1]));
                 return true;
             }
-            var ri = di.GetRoomInfo(args[2]);
+            var ri = di.getRoomInfo(args[2]);
             if (ri == null) {
                 p.sendMessage(MessageFormat.format("不存在房间：{0}", args[2]));
                 return true;
@@ -58,7 +58,7 @@ public class CmdDungeonInfo implements CommandInterface {
             DungeonManager.getDIList().forEach(d -> names.add(d.getId()));
             return names;
         } else if (args.length == 3) {
-            var di = DungeonAPI.GetDungeonInfo(args[1]);
+            var di = DungeonAPI.getDungeonInfo(args[1]);
             if (di == null) {
                 return null;
             }

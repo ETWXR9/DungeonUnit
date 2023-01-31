@@ -80,7 +80,7 @@ public class DungeonInfo {
     /**
      * 填充空房间列表
      */
-    private void initEmptyRoomList() {
+    public void initEmptyRoomList() {
         roomUnits = new HashMap<>();
         roomInfos.forEach((s, ri) -> {
             ri.getRooms().forEach(v -> {
@@ -106,7 +106,7 @@ public class DungeonInfo {
      * @param id
      * @return
      */
-    public RoomInfo GetRoomInfo(String id) {
+    public RoomInfo getRoomInfo(String id) {
         return roomInfos.get(id);
     }
 

@@ -63,14 +63,14 @@ public class Main extends JavaPlugin {
         cmdHandler.register("newRoom", new CmdNewRoom());
         cmdHandler.register("copyRoom", new CmdCopyRoom());
         cmdHandler.register("updateRoom", new CmdUpdateRoom());
-        this.getCommand("dfmc").setExecutor(cmdHandler);
-        this.getCommand("dfmc").setTabCompleter(new BaseTabCompleter());
+        this.getCommand("du").setExecutor(cmdHandler);
+        this.getCommand("du").setTabCompleter(new BaseTabCompleter());
         // 如果没有配置目录，创建。
         if (!Files.exists(Paths.get(getDataFolder() + "/"))) {
             try {
                 Files.createDirectory(Paths.get(getDataFolder() + "/"));
             } catch (Exception e) {
-                getLogger().info("插件dfmc创建配置目录出错");
+                getLogger().info("插件du创建配置目录出错");
             }
         }
     }

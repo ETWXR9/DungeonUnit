@@ -33,6 +33,9 @@ public class CmdNewRoom implements CommandInterface {
             p.sendMessage("已经存在同名房间");
             return true;
         }
+        if (dm.currentDungeon.getEmptyRoomList().size() == 0){
+            p.sendMessage("当前地牢已经没有空房间，无法新建房间！");
+        }
         DungeonManager.newRoomInfo(p, dm.currentDungeon, args[1]);
         return true;
     }

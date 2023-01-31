@@ -56,7 +56,7 @@ public class CmdCreateDungeon implements CommandInterface {
         }
 
         //TODO 这里之后添加判断地牢重叠
-        if (DungeonAPI.GetDungeonInfo(id) != null) {
+        if (DungeonAPI.getDungeonInfo(id) != null) {
             p.sendMessage("已经存在id为 " + id + " 的地牢！");
         }
         // 创建配置
@@ -73,7 +73,7 @@ public class CmdCreateDungeon implements CommandInterface {
             DungeonManager.getDIList().add(dungeonInfo);
             // 在源点创建一个新房间
             // 传送玩家,设定当前房间
-            DungeonManager.newRoomInfo(p, DungeonAPI.GetDungeonInfo(id), "default");
+            DungeonManager.newRoomInfo(p, DungeonAPI.getDungeonInfo(id), "default");
         try {
             DungeonManager.WriteDungeonFile(dungeonInfo);
         } catch (Exception e) {

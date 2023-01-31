@@ -20,7 +20,7 @@ public class CmdEnterDungeon implements CommandInterface {
         if (args.length < 2) {
             return false;
         }
-        var di = DungeonAPI.GetDungeonInfo(args[1]);
+        var di = DungeonAPI.getDungeonInfo(args[1]);
         var dm = DungeonManager.GetDMbyPlayer(p);
 
         if (di == null) {
@@ -36,7 +36,7 @@ public class CmdEnterDungeon implements CommandInterface {
             DungeonManager.setDungeonManager(p,di );
 //            dm.TeleportPlayerToRoom(dm.currentDungeon, dm.currentRoom);
         } else if (args.length == 3) {
-            var ri = di.GetRoomInfo(args[2]);
+            var ri = di.getRoomInfo(args[2]);
             if (ri == null) {
                 p.sendMessage("指定房间 " + args[2] + " 不存在");
                 return true;
@@ -84,7 +84,7 @@ public class CmdEnterDungeon implements CommandInterface {
             dis.forEach(d -> names.add(d.getId()));
             return names;
         } else if (args.length == 3) {
-            var di = DungeonAPI.GetDungeonInfo(args[1]);
+            var di = DungeonAPI.getDungeonInfo(args[1]);
             if (di != null) {
                 var names = new ArrayList<String>();
                 di.getRoomInfos().forEach((s, roomInfo) -> names.add(roomInfo.getId()));

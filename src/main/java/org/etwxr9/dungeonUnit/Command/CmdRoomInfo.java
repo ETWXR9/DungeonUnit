@@ -1,7 +1,6 @@
 package org.etwxr9.dungeonUnit.Command;
 
 import java.text.MessageFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.etwxr9.dungeonUnit.DungeonAPI;
@@ -36,7 +35,7 @@ public class CmdRoomInfo implements CommandInterface {
         var ri = dm.currentRoom;
 
         p.sendMessage(MessageFormat.format("§b查看房间信息：所属地牢：{0}， Id：{1}, 序号：{2}", di.getId(), ri.getId(),
-                ri.getRooms().indexOf(dm.currentIndex)));
+                dm.currentIndex));
         p.sendMessage(MessageFormat.format("单元大小：{0}", di.getRoomSize().toString()));
         p.sendMessage(MessageFormat.format("房间副本数量：{0}", ri.getRooms().size()));
         p.sendMessage("房间Tag：");
@@ -58,13 +57,13 @@ public class CmdRoomInfo implements CommandInterface {
                 count--;
 
                 ri.getSpecialPositions().forEach((k, v) -> {
-                    var pos = DungeonAPI.GetPoint(ri, ri.getRooms().indexOf(dm.currentIndex), v);
+                    var pos = DungeonAPI.getPoint(ri, dm.currentIndex, v);
                     p.getWorld().spawnParticle(Particle.REDSTONE,
                             new Location(p.getWorld(), pos.getBlockX() + 0.5, pos.getBlockY() + 0.5, pos.getBlockZ() + 0.5),
                             10, 0.1, 0.1, 0.1,
                             new DustOptions(Color.AQUA, 1));
                 });
-                var pos = DungeonAPI.GetPoint(ri, ri.getRooms().indexOf(dm.currentIndex), ri.getPlayerPosition());
+                var pos = DungeonAPI.getPoint(ri, dm.currentIndex, ri.getPlayerPosition());
                 p.getWorld().spawnParticle(Particle.REDSTONE,
                         new Location(p.getWorld(), pos.getBlockX() + 0.5, pos.getBlockY() + 0.5, pos.getBlockZ() + 0.5),
                         10, 0.1, 0.1, 0.1,
