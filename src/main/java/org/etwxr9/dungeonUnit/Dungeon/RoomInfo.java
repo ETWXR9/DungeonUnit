@@ -24,6 +24,7 @@ public class RoomInfo {
         this.playerPosition = playerPosition;
         this.specialPositions = specialPositions == null ? new HashMap<>() : specialPositions;
         this.rooms = rooms;
+        System.out.println("ri cons 1");
     }
 
 
@@ -35,6 +36,7 @@ public class RoomInfo {
         specialPositions = new HashMap<>();
         rooms = new ArrayList<>();
         rooms.add(firstRoomPos);
+        System.out.println("ri cons 2");
     }
 
     public String getDungeonId() {
@@ -50,10 +52,8 @@ public class RoomInfo {
     }
 
     public void setId(String id) {
-        var di = DungeonAPI.getDungeonInfo(dungeonId);
-        di.getRoomInfos().put(id,di.getRoomInfos().remove(this.id));
         this.id = id;
-        di.initEmptyRoomList();
+        System.out.println("ri setid");
     }
 
     public List<String> getTags() {

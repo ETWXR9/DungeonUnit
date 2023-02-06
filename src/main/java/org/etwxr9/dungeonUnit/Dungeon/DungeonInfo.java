@@ -29,7 +29,6 @@ public class DungeonInfo {
     @JSONField(serialize = false)
     private ArrayList<Vector> emptyRoomList;
 
-
     public DungeonInfo(String id, String world, List<String> tags, Vector origin, Vector size, Vector roomSize, Map<String, RoomInfo> roomInfos) {
         this.id = id;
         this.world = world;

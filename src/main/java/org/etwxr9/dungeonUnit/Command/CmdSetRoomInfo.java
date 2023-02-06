@@ -65,7 +65,7 @@ public class CmdSetRoomInfo implements CommandInterface {
                     }
                 }
                 break;
-            case "id":// 这里需要做重复检查+目录更改
+            case "id":
                 if (args.length != 3) {
                     return false;
                 }
@@ -74,7 +74,11 @@ public class CmdSetRoomInfo implements CommandInterface {
                     p.sendMessage("id已经存在！");
                     break;
                 }
+                var oldId = dm.currentRoom.getId();
                 dm.currentRoom.setId(newId);
+                var di = dm.currentDungeon;
+                di.getRoomInfos().put(newId,di.getRoomInfos().remove(oldId));
+                di.initEmptyRoomList();
                 break;
             case "tags":
                 if (args.length != 4) {
