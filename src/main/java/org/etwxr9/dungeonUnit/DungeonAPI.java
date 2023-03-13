@@ -1,12 +1,12 @@
 package org.etwxr9.dungeonUnit;
 
-import org.etwxr9.dungeonUnit.Dungeon.DungeonInfo;
-import org.etwxr9.dungeonUnit.Dungeon.DungeonManager;
-import org.etwxr9.dungeonUnit.Dungeon.RoomInfo;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
+import org.etwxr9.dungeonUnit.Dungeon.DungeonInfo;
+import org.etwxr9.dungeonUnit.Dungeon.DungeonManager;
+import org.etwxr9.dungeonUnit.Dungeon.RoomInfo;
 
 import java.text.MessageFormat;
 import java.util.List;
@@ -129,5 +129,31 @@ public class DungeonAPI {
         return ori.add(di.getRoomSize().clone().multiply(ri.getRooms().get(index)).add(roomPoint));
     }
 
+    /**
+     * 返回指定位置是否在指定房间之中
+     *
+     * @param di
+     * @param ri
+     * @param index
+     * @param loc
+     * @return
+     */
+    public static boolean isLocationInRoom(DungeonInfo di, RoomInfo ri, int index, Location loc) {
+        if (ri.getRooms().size() <= index) return false;
+        var world = Bukkit.getWorld(di.getWorld());
+        if (di.getWorld().equals(loc.getWorld().getName())) ;
+        var min = getPoint(ri, index, new Vector(0, 0, 0));
+        var minX = min.getX();
+        var minY = min.getY();
+        var minZ = min.getZ();
+        var max = min.clone().add(di.getRoomSize());
+        var maxX = max.getX();
+        var maxY = max.getY();
+        var maxZ = max.getZ();
+        var x = loc.getX();
+        var y = loc.getY();
+        var z = loc.getZ();
+        return x >= minX && x <= maxX && z >= minZ && z <= maxZ && y >= minY && y <= maxY;
+    }
 
 }
