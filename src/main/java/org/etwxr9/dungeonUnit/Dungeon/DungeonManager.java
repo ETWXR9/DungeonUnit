@@ -19,6 +19,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.Vector;
 
 import java.io.IOException;
@@ -28,7 +29,7 @@ import java.nio.file.StandardOpenOption;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.concurrent.CompletableFuture;
 
 //每个该对象和一个玩家绑定。管理所有DungeonInfo。
 public class DungeonManager {
@@ -78,44 +79,48 @@ public class DungeonManager {
         return dm;
     }
 
-
     // 使用JsonIO的函数加载所有json文件并解析为DungeonInfo，加入diList，（可能功能：填充空房间列表），加载世界
-//    public static void LoadDungeons() {
-//        diList = new ArrayList<DungeonInfo>();
-//        File dir = new File(Main.getInstance().getDataFolder().getAbsolutePath().toString() + "/Dungeon/");
-//        if (!dir.exists()) dir.mkdirs();
-//        //提取文件名
-//        var names = Arrays.asList(dir.list()).stream().filter(s -> s.endsWith(".json"))
-//                .map(s -> s = s.substring(0, s.length() - 5)).collect(Collectors.toList());
-//        Main.getInstance().getLogger().info("读取地牢数据数量" + names.size());
-//        names.forEach(n -> {
-//            try {
-//                Main.getInstance().getLogger().info("读取地牢数据 " + n);
-//                LoadDungeon(n);
-//            } catch (Exception e) {
-//                Main.getInstance().getLogger().info("读取地牢数据出错！ ");
-//                e.printStackTrace();
-//            }
-//        });
-//    }
+    // public static void LoadDungeons() {
+    // diList = new ArrayList<DungeonInfo>();
+    // File dir = new
+    // File(Main.getInstance().getDataFolder().getAbsolutePath().toString() +
+    // "/Dungeon/");
+    // if (!dir.exists()) dir.mkdirs();
+    // //提取文件名
+    // var names = Arrays.asList(dir.list()).stream().filter(s ->
+    // s.endsWith(".json"))
+    // .map(s -> s = s.substring(0, s.length() - 5)).collect(Collectors.toList());
+    // Main.getInstance().getLogger().info("读取地牢数据数量" + names.size());
+    // names.forEach(n -> {
+    // try {
+    // Main.getInstance().getLogger().info("读取地牢数据 " + n);
+    // LoadDungeon(n);
+    // } catch (Exception e) {
+    // Main.getInstance().getLogger().info("读取地牢数据出错！ ");
+    // e.printStackTrace();
+    // }
+    // });
+    // }
 
-//    public static void LoadDungeon(String id) {
-//        // 读取地牢json、房间json、合并
-//        DungeonInfo di;
-//        try {
-//            var path = Paths.get(Main.getInstance().getDataFolder().getAbsolutePath() + "/Dungeon/" + id + ".json");
-//            if (!Files.exists(path)) return;
-//            var dataString = Files.readString(path);
-//            Main.getInstance().getLogger().info(("loadDungeon dataString:" + dataString));
-//            di = JSON.parseObject(dataString, DungeonInfo.class);
-//            Main.getInstance().getLogger().info(("loadDungeon object" + di));
-//            Main.getInstance().getLogger().info(("loadDungeon id " + di.getId()));
-//            diList.add(di);
-//        } catch (Exception e) {
-//            Main.getInstance().getLogger().info("读取地牢数据出错！ " + e.getMessage());
-//        }
-//
-//    }
+    // public static void LoadDungeon(String id) {
+    // // 读取地牢json、房间json、合并
+    // DungeonInfo di;
+    // try {
+    // var path = Paths.get(Main.getInstance().getDataFolder().getAbsolutePath() +
+    // "/Dungeon/" + id + ".json");
+    // if (!Files.exists(path)) return;
+    // var dataString = Files.readString(path);
+    // Main.getInstance().getLogger().info(("loadDungeon dataString:" +
+    // dataString));
+    // di = JSON.parseObject(dataString, DungeonInfo.class);
+    // Main.getInstance().getLogger().info(("loadDungeon object" + di));
+    // Main.getInstance().getLogger().info(("loadDungeon id " + di.getId()));
+    // diList.add(di);
+    // } catch (Exception e) {
+    // Main.getInstance().getLogger().info("读取地牢数据出错！ " + e.getMessage());
+    // }
+    //
+    // }
 
     /**
      * 设定DungeonManager地牢编辑器并将玩家传送至指定房间
@@ -126,7 +131,7 @@ public class DungeonManager {
      */
     public static DungeonManager setDungeonManager(Player p, DungeonInfo di, RoomInfo ri) {
         var dm = GetDMbyPlayer(p);
-        //若DM已经存在
+        // 若DM已经存在
         if (dm != null) {
             dm.currentDungeon = di;
             dm.currentRoom = ri;
@@ -134,7 +139,7 @@ public class DungeonManager {
             dm.TeleportPlayerToRoom(di, ri);
             return dm;
         }
-        //DM不存在，新建
+        // DM不存在，新建
         dm = new DungeonManager();
         dm.player = p;
         dm.currentDungeon = di;
@@ -168,7 +173,7 @@ public class DungeonManager {
     public static void FillDefaultRoom(DungeonInfo di, Vector pos) {
         var size = di.getRoomSize();
         var w = Bukkit.getWorld(di.getWorld());
-        //minPos绝对位置
+        // minPos绝对位置
 
         var origin = di.getOrigin().clone().add(pos.clone().multiply(size));
         Main.getInstance().getLogger().info("房间源点位置" + pos.clone().multiply(size).toString());
@@ -178,7 +183,8 @@ public class DungeonManager {
                     int blockX = origin.getBlockX() + x;
                     int blockY = origin.getBlockY() + y;
                     int blockZ = origin.getBlockZ() + z;
-                    if (x * y * z == 0 || x == size.getBlockX() - 1 || y == size.getBlockY() - 1 || z == size.getBlockZ() - 1) {
+                    if (x * y * z == 0 || x == size.getBlockX() - 1 || y == size.getBlockY() - 1
+                            || z == size.getBlockZ() - 1) {
                         w.getBlockAt(blockX, blockY, blockZ).setType(Material.STONE);
                     } else {
                         w.getBlockAt(blockX, blockY, blockZ).setType(Material.AIR);
@@ -199,14 +205,15 @@ public class DungeonManager {
     public static RoomInfo newRoomInfo(Player p, DungeonInfo dungeon, String id) {
         var point = GetEmptyRoom(dungeon);
         Main.getInstance().getLogger().info("取得空房间" + point.toString());
-        if (point == null) return null;
+        if (point == null)
+            return null;
         RoomInfo newRoom = new RoomInfo(dungeon.getId(), id, new ArrayList<String>(),
                 new Vector(1, 1, 1), point);
         dungeon.getEmptyRoomList().remove(point);
         dungeon.getRoomInfos().put(id, newRoom);
         dungeon.getRoomUnits().put(point, id);
         FillDefaultRoom(dungeon, point);
-        //保存文件
+        // 保存文件
         try {
             DungeonManager.WriteDungeonFile(dungeon);
         } catch (IOException e) {
@@ -240,8 +247,7 @@ public class DungeonManager {
                 new Vector()).toBlockVector();
         var vEnd = DungeonAPI.getPoint(ri, 0,
                 di.getRoomSize());
-        p.sendMessage(count == -1 ? "准备更新 " + (ri.getRooms().size() - 1) + " 个房间" :
-                "准备复制 " + count + " 个房间");
+        p.sendMessage(count == -1 ? "准备更新 " + (ri.getRooms().size() - 1) + " 个房间" : "准备复制 " + count + " 个房间");
         // USE WEAPI
         var v3Begin = BlockVector3.at(vBegin.getBlockX(), vBegin.getBlockY(), vBegin.getBlockZ());
         var v3End = BlockVector3.at(vEnd.getBlockX() - 1, vEnd.getBlockY() - 1, vEnd.getBlockZ() - 1);
@@ -249,7 +255,8 @@ public class DungeonManager {
         BlockArrayClipboard clipboard = new BlockArrayClipboard(region);
 
         try (EditSession editSession = WorldEdit.getInstance().newEditSession(BukkitAdapter.adapt(p.getWorld()))) {
-            ForwardExtentCopy forwardExtentCopy = new ForwardExtentCopy(editSession, region, clipboard, region.getMinimumPoint());
+            ForwardExtentCopy forwardExtentCopy = new ForwardExtentCopy(editSession, region, clipboard,
+                    region.getMinimumPoint());
             try {
                 forwardExtentCopy.setCopyingEntities(false);
                 Operations.complete(forwardExtentCopy);
@@ -259,15 +266,16 @@ public class DungeonManager {
         }
         p.sendMessage("房间数据进入剪贴版，开始执行");
 
-
         if (count == -1) {
             for (int i = 1; i < ri.getRooms().size(); i++) {
                 var des = DungeonAPI.getPoint(dm.currentRoom,
                         i, new Vector());
                 p.sendMessage(MessageFormat.format("更新房间序号{0}，位置{1}", i, des.toString()));
 
-                try (EditSession editSession = WorldEdit.getInstance().newEditSession(BukkitAdapter.adapt(p.getWorld()))) {
-                    Operation operation = new ClipboardHolder(clipboard).createPaste(editSession).to(BlockVector3.at(des.getBlockX(), des.getBlockY(), des.getBlockZ())).build();
+                try (EditSession editSession = WorldEdit.getInstance()
+                        .newEditSession(BukkitAdapter.adapt(p.getWorld()))) {
+                    Operation operation = new ClipboardHolder(clipboard).createPaste(editSession)
+                            .to(BlockVector3.at(des.getBlockX(), des.getBlockY(), des.getBlockZ())).build();
                     try {
                         Operations.complete(operation);
                     } catch (WorldEditException e) {
@@ -280,13 +288,14 @@ public class DungeonManager {
         } else {
             for (int i = 0; i < count; i++) {
                 var emptyRoomVector = DungeonManager.GetEmptyRoom(di);
-                if (emptyRoomVector == null){
+                if (emptyRoomVector == null) {
                     p.sendMessage("当前地牢已经没有空位，无法继续复制！");
                     return;
                 }
                 var des = di.getOrigin().clone().add(di.getRoomSize().clone().multiply(emptyRoomVector));
                 p.sendMessage(MessageFormat.format("向{0}复制{1}号房间", des.toString(), ri.getRooms().size()));
-                try (EditSession editSession = WorldEdit.getInstance().newEditSession(BukkitAdapter.adapt(p.getWorld()))) {
+                try (EditSession editSession = WorldEdit.getInstance()
+                        .newEditSession(BukkitAdapter.adapt(p.getWorld()))) {
                     Operation operation = new ClipboardHolder(clipboard).createPaste(editSession)
                             .to(BlockVector3.at(des.getBlockX(), des.getBlockY(), des.getBlockZ())).build();
                     try {
@@ -307,19 +316,122 @@ public class DungeonManager {
         }
         Bukkit.getWorld(dm.currentDungeon.getWorld()).save();
         p.sendMessage("世界已保存");
-
-
     }
 
+    /**
+     * 复制房间
+     *
+     * @param dm
+     * @param count count为-1时为更新房间
+     */
+    public static void CloneRoomAsync(DungeonManager dm, int count) {
+        var p = dm.player;
+        var ri = dm.currentRoom;
+        var di = dm.currentDungeon;
+        var vBegin = DungeonAPI.getPoint(ri, 0,
+                new Vector()).toBlockVector();
+        var vEnd = DungeonAPI.getPoint(ri, 0,
+                di.getRoomSize());
+        p.sendMessage(count == -1 ? "准备更新 " + (ri.getRooms().size() - 1) + " 个房间" : "准备复制 " + count + " 个房间");
+        // USE WEAPI
+        var v3Begin = BlockVector3.at(vBegin.getBlockX(), vBegin.getBlockY(), vBegin.getBlockZ());
+        var v3End = BlockVector3.at(vEnd.getBlockX() - 1, vEnd.getBlockY() - 1, vEnd.getBlockZ() - 1);
+        CuboidRegion region = new CuboidRegion(v3Begin, v3End);
+        BlockArrayClipboard clipboard = new BlockArrayClipboard(region);
+        Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(), new Runnable() {
+            @Override
+            public void run() {
+                p.sendMessage("开始异步执行房间克隆任务");
+                try (EditSession editSession = WorldEdit.getInstance()
+                        .newEditSession(BukkitAdapter.adapt(p.getWorld()))) {
+                    ForwardExtentCopy forwardExtentCopy = new ForwardExtentCopy(editSession, region, clipboard,
+                            region.getMinimumPoint());
+                    try {
+                        forwardExtentCopy.setCopyingEntities(false);
+                        Operations.complete(forwardExtentCopy);
+                    } catch (WorldEditException e) {
+                        e.printStackTrace();
+                    }
+                }
+                p.sendMessage("房间数据进入剪贴版，开始克隆");
+                if (count == -1) {
+                    List<CompletableFuture<Void>> futures = new ArrayList<>();
+                    for (int i = 1; i < ri.getRooms().size(); i++) {
+                        var des = DungeonAPI.getPoint(dm.currentRoom,
+                                i, new Vector());
+                        int currentIndex = i;
 
+                        CompletableFuture<Void> future = CompletableFuture.runAsync(() -> {
+                            try (EditSession editSession = WorldEdit.getInstance()
+                                    .newEditSession(BukkitAdapter.adapt(p.getWorld()))) {
+                                Operation operation = new ClipboardHolder(clipboard).createPaste(editSession)
+                                        .to(BlockVector3.at(des.getBlockX(), des.getBlockY(), des.getBlockZ())).build();
+                                try {
+                                    Operations.complete(operation);
+                                    p.sendMessage(
+                                            MessageFormat.format("更新房间序号{0}，位置{1}完毕", currentIndex, des.toString()));
+                                } catch (WorldEditException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                        futures.add(future);
+                    }
+                    CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).thenRun(() -> {
+                        p.sendMessage("全部更新完毕");
+                    });
+                } else {
+                    var emptyRoomVector = DungeonManager.GetEmptyRoom(di);
+                    if (emptyRoomVector == null) {
+                        p.sendMessage("当前地牢已经没有空位，无法继续复制！");
+                        return;
+                    }
+                    List<CompletableFuture<Void>> futures = new ArrayList<>();
+                    for (int i = 0; i < count; i++) {
+                        CompletableFuture<Void> future = CompletableFuture.runAsync(() -> {
+                            var des = di.getOrigin().clone()
+                                    .add(di.getRoomSize().clone().multiply(emptyRoomVector));
+                            try (EditSession editSession = WorldEdit.getInstance()
+                                    .newEditSession(BukkitAdapter.adapt(p.getWorld()))) {
+                                Operation operation = new ClipboardHolder(clipboard).createPaste(editSession)
+                                        .to(BlockVector3.at(des.getBlockX(), des.getBlockY(), des.getBlockZ()))
+                                        .build();
+                                try {
+                                    Operations.complete(operation);
+                                    p.sendMessage(
+                                            MessageFormat.format("向{0}复制{1}号房间完毕", des.toString(),
+                                                    ri.getRooms().size()));
+                                    di.getEmptyRoomList().remove(emptyRoomVector);
+                                    ri.getRooms().add(emptyRoomVector);
+                                    di.getRoomUnits().put(emptyRoomVector, ri.getId());
+                                } catch (WorldEditException e) {
+                                    p.sendMessage("复制出现错误");
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                        futures.add(future);
+                    }
+                    CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).thenRun(() -> {
+                        p.sendMessage("全部复制完毕");
+
+                    });
+                }
+                // Bukkit.getWorld(dm.currentDungeon.getWorld()).save();
+                // p.sendMessage("世界已保存");
+            }
+
+        });
+    }
     //
-//    public static double[] GetPoint(DungeonInfo di, int[] roomPos, double[] roomPoint) {
-//        var x = di.Origin[0] + di.RoomSize[0] * roomPos[0] + roomPoint[0];
-//        var y = di.Origin[1] + di.RoomSize[1] * roomPos[1] + roomPoint[1];
-//        var z = di.Origin[2] + di.RoomSize[2] * roomPos[2] + roomPoint[2];
-//
-//        return new double[]{x, y, z};
-//    }
+    // public static double[] GetPoint(DungeonInfo di, int[] roomPos, double[]
+    // roomPoint) {
+    // var x = di.Origin[0] + di.RoomSize[0] * roomPos[0] + roomPoint[0];
+    // var y = di.Origin[1] + di.RoomSize[1] * roomPos[1] + roomPoint[1];
+    // var z = di.Origin[2] + di.RoomSize[2] * roomPos[2] + roomPoint[2];
+    //
+    // return new double[]{x, y, z};
+    // }
 
     /**
      * 写入地牢数据

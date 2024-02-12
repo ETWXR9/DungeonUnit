@@ -1,8 +1,12 @@
 package org.etwxr9.dungeonUnit;
 
 import com.alibaba.fastjson2.JSON;
+import com.fastasyncworldedit.bukkit.regions.plotsquared.FaweQueueCoordinator;
+import com.sk89q.worldedit.bukkit.BukkitAdapter;
+
 import org.etwxr9.dungeonUnit.Dungeon.DungeonInfo;
 import org.etwxr9.dungeonUnit.Dungeon.DungeonManager;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.etwxr9.dungeonUnit.Command.*;
 
@@ -12,7 +16,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.stream.Collectors;
-
 
 public class Main extends JavaPlugin {
 
@@ -30,13 +33,15 @@ public class Main extends JavaPlugin {
         i = this;
         // 管理配置文件
         saveDefaultConfig();
-        //加载DungeonInfo
+        // 加载DungeonInfo
         File diDir = new File(Main.getInstance().getDataFolder().getAbsolutePath().toString() + "/Dungeon/");
-        if (!diDir.exists()) diDir.mkdirs();
-        //取得json路径
-        var diPathList = Arrays.asList(diDir.listFiles()).stream().filter(s -> s.getAbsolutePath().endsWith(".json")).collect(Collectors.toList());
+        if (!diDir.exists())
+            diDir.mkdirs();
+        // 取得json路径
+        var diPathList = Arrays.asList(diDir.listFiles()).stream().filter(s -> s.getAbsolutePath().endsWith(".json"))
+                .collect(Collectors.toList());
         Main.getInstance().getLogger().info("读取地牢数据数量" + diPathList.size());
-        //读取json内容并转换为DungeonInfo对象，存入DiList
+        // 读取json内容并转换为DungeonInfo对象，存入DiList
         diPathList.forEach(f -> {
             try {
                 var p = f.getAbsolutePath();

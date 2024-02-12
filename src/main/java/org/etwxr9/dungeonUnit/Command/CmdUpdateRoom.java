@@ -28,8 +28,7 @@ public class CmdUpdateRoom implements CommandInterface {
             p.sendMessage("请用enterdungeon进入一个地牢");
             return true;
         }
-        DungeonManager.CloneRoom(dm, -1);
-
+        DungeonManager.CloneRoomAsync(dm, -1);
         return true;
     }
 
